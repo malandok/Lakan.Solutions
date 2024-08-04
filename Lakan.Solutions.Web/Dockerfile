@@ -9,17 +9,17 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Lakan.Solutions.App/Lakan.Solutions.App.csproj", "Lakan.Solutions.App/"]
-RUN dotnet restore "./Lakan.Solutions.App/Lakan.Solutions.App.csproj"
+COPY ["Lakan.Solutions.Web/Lakan.Solutions.Web.csproj", "Lakan.Solutions.Web/"]
+RUN dotnet restore "./Lakan.Solutions.Web/Lakan.Solutions.Web.csproj"
 COPY . .
-WORKDIR "/src/Lakan.Solutions.App"
-RUN dotnet build "./Lakan.Solutions.App.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/Lakan.Solutions.Web"
+RUN dotnet build "./Lakan.Solutions.Web.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Lakan.Solutions.App.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./Lakan.Solutions.Web.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Lakan.Solutions.App.dll"]
+ENTRYPOINT ["dotnet", "Lakan.Solutions.Web.dll"]

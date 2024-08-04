@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Lakan.Solutions.App.Pages
+namespace Lakan.Solutions.Web.Pages
 {
     public class PrivacyModel : PageModel
     {
